@@ -14,7 +14,7 @@ export default class AuthController {
       return response.unauthorized({ success: false, message: 'Invalid credentials' })
     }
 
-    await auth.use('web').login(user, false)
+    await auth.use('web').login(user, true)
     return response.ok({ success: true, user })
   }
 
@@ -29,7 +29,7 @@ export default class AuthController {
       return response.badRequest({ success: false, message: 'Failed to register' })
     }
 
-    await auth.use('web').login(user, false)
+    await auth.use('web').login(user, true)
     return response.ok({ success: true, user })
   }
 
