@@ -15,15 +15,19 @@ const UserController = () => import('#controllers/user_controller')
 
 router
   .group(() => {
-    router.post('/login', [AuthController, 'login']).as('auth.login')
-    router.post('/register', [AuthController, 'register']).as('auth.register')
-    router.post('/logout', [AuthController, 'logout']).as('auth.logout')
-  })
-  .prefix('/auth')
+    router
+      .group(() => {
+        router.post('/login', [AuthController, 'login']).as('auth.login')
+        router.post('/register', [AuthController, 'register']).as('auth.register')
+        router.post('/logout', [AuthController, 'logout']).as('auth.logout')
+      })
+      .prefix('/auth')
 
-router
-  .group(() => {
-    router.get('/me', [UserController, 'me']).as('user.me')
+    router
+      .group(() => {
+        router.get('/me', [UserController, 'me']).as('user.me')
+      })
+      .prefix('/user')
+      .middleware(middleware.auth())
   })
-  .prefix('/user')
-  .middleware(middleware.auth())
+  .prefix('/api')
