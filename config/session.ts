@@ -27,6 +27,7 @@ const sessionConfig = defineConfig({
     httpOnly: true,
     secure: app.inProduction,
     sameSite: 'lax',
+    domain: '127.0.0.1',
   },
 
   /**
@@ -42,7 +43,7 @@ const sessionConfig = defineConfig({
    */
   stores: {
     cookie: stores.cookie(),
-  }
+  },
 })
 
 export default sessionConfig
