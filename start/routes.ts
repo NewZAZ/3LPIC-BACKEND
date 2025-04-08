@@ -43,6 +43,7 @@ router
     router
       .group(() => {
         router.get('/:id/grades', [GradeController, 'listByCourse']).as('grades.index')
+        router.post('/:id/evaluate', [GradeController, 'evaluate']).as('grades.evaluate')
       })
       .prefix('/courses')
       .middleware(middleware.auth())

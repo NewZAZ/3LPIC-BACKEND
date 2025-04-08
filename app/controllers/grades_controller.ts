@@ -1,5 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import Grade from '#models/grade'
+import Module from "#models/module";
 
 export default class GradesController {
   async listByCourse({ params, response, auth }: HttpContext) {
@@ -17,5 +18,24 @@ export default class GradesController {
     }
 
     return response.ok(grades)
+  }
+
+  async evaluate({ params, request, response }: HttpContext) {
+    const { userId, score } = request.body()
+
+    const module = await Module.query().where('id', params.id).firstOrFail()
+
+    if (!module) {
+      return response.notFound({ success: false, message: 'Module not found' })
+    }
+
+    await Grade.create({
+      userId,
+      courseId: module.id,
+      grade: score,
+      maxGrade: 100,
+    })
+
+    return response.ok({ success: true })
   }
 }

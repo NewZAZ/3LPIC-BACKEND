@@ -1,5 +1,3 @@
-// import type { HttpContext } from '@adonisjs/core/http'
-
 import { HttpContext } from '@adonisjs/core/http'
 import Upload from '#models/upload'
 
@@ -9,21 +7,29 @@ export default class UploadsController {
     if (!user) {
       return response.unauthorized({ message: 'Unauthorized' })
     }
-    const file = request.file('file')
 
+    const file = request.file('file')
     if (!file) {
       return response.badRequest({ message: 'File not found' })
     }
 
-    await file.move('./uploads')
-
-    if (!file.isValid) {
-      return response.badRequest({ message: 'File upload failed' })
+    const fileExtension = file.clientName.split('.').pop()
+    if (!['py', 'c'].includes(fileExtension)) {
+      return response.badRequest({ message: 'Invalid file type' })
     }
 
     const moduleId = request.input('moduleId')
     if (!moduleId) {
       return response.badRequest({ message: 'Module ID not provided' })
+    }
+
+    const newFileName = `${user.id}-${moduleId}-${file.clientName}`
+    await file.move('/mnt/shared', {
+      name: newFileName,
+      overwrite: true,
+    })
+    if (!file.isValid) {
+      return response.badRequest({ message: 'File upload failed' })
     }
 
     const upload = await Upload.create({
