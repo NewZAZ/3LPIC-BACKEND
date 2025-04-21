@@ -3,7 +3,7 @@ import { loginValidator, registerValidator } from '#validators/auth'
 import User from '#models/user'
 
 export default class AuthController {
-  async login({ auth, request, response }: HttpContext) {
+  async login({ request, response }: HttpContext) {
     const data = request.all()
     const payload = await loginValidator.validate(data)
 
@@ -14,11 +14,10 @@ export default class AuthController {
       return response.unauthorized({ success: false, message: 'Invalid credentials' })
     }
 
-    await auth.use('web').login(user, true)
-    return response.ok({ success: true, user })
+    return User.accessTokens.create(user)
   }
 
-  async register({ auth, request, response }: HttpContext) {
+  async register({ request, response }: HttpContext) {
     const data = request.all()
     const payload = await registerValidator.validate(data)
 
@@ -29,12 +28,16 @@ export default class AuthController {
       return response.badRequest({ success: false, message: 'Failed to register' })
     }
 
-    await auth.use('web').login(user, true)
-    return response.ok({ success: true, user })
+    return User.accessTokens.create(user)
   }
 
-  async logout({ auth, response }: HttpContext) {
-    await auth.use('web').logout()
-    return response.ok({ success: true })
+  async logout({ response, auth }: HttpContext) {
+    try {
+      const user = auth.user!
+      await User.accessTokens.delete(user, user.currentAccessToken.identifier)
+      return response.ok({ revoked: true, message: 'Logout successfully' })
+    } catch (error) {
+      return response.badRequest({ error: error })
+    }
   }
 }
