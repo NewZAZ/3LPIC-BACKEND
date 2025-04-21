@@ -34,6 +34,7 @@ export default class GradesController {
       courseId: module.id,
       grade: score,
       maxGrade: 100,
+      percentage: 100,
     })
 
     return response.ok({ success: true })
