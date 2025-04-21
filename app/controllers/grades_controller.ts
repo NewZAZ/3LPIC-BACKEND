@@ -24,7 +24,7 @@ export default class GradesController {
   async evaluate({ params, request, response }: HttpContext) {
     const { userId, moduleId, score } = request.body()
 
-    console.log('courseid', course.id, 'moduleId', moduleId, 'userId', userId, 'score', score)
+    console.log('courseid', params.id, 'moduleId', moduleId, 'userId', userId, 'score', score)
     const course = await Course.query().where('id', params.id).firstOrFail()
 
     if (!course) {
