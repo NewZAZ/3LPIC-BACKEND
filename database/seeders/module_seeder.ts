@@ -17,7 +17,7 @@ export default class extends BaseSeeder {
           description: 'Introduction au cours.',
         },
         {
-          id: i++,
+          id: i + 1,
           courseId: course.id,
           title: `${course.title} - Module 2`,
           description: 'Approfondissement.',
