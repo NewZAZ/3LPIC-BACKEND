@@ -18,12 +18,17 @@ export default class UploadsController {
       return response.badRequest({ message: 'Invalid file type' })
     }
 
+    const courseId = request.input('courseId')
+    if (!courseId) {
+      return response.badRequest({ message: 'Course ID not provided' })
+    }
+
     const moduleId = request.input('moduleId')
     if (!moduleId) {
       return response.badRequest({ message: 'Module ID not provided' })
     }
 
-    const newFileName = `${user.id}-${moduleId}-${file.clientName}`
+    const newFileName = `${user.id}-${courseId}-${moduleId}-${file.clientName}`
     await file.move('/mnt/shared', {
       name: newFileName,
       overwrite: true,

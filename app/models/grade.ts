@@ -11,6 +11,9 @@ export default class Grade extends BaseModel {
   declare courseId: number
 
   @column()
+  declare moduleId: number
+
+  @column()
   declare userId: number
 
   @column()

@@ -12,6 +12,12 @@ export default class extends BaseSchema {
         .references('id')
         .inTable('courses')
         .onDelete('CASCADE')
+      table
+        .integer('module_id')
+        .notNullable()
+        .references('id')
+        .inTable('modules')
+        .onDelete('CASCADE')
       table.integer('user_id').notNullable().references('id').inTable('users').onDelete('CASCADE')
       table.string('title').nullable()
       table.float('grade').nullable()
