@@ -9,6 +9,8 @@ export default class extends BaseSeeder {
     let i = 0
     for (const course of courses) {
       i += 1
+      const i2 = i + 1
+      console.log(i, i2)
       await Module.createMany([
         {
           id: i,
@@ -17,7 +19,7 @@ export default class extends BaseSeeder {
           description: 'Introduction au cours.',
         },
         {
-          id: i + 1,
+          id: i2,
           courseId: course.id,
           title: `${course.title} - Module 2`,
           description: 'Approfondissement.',
