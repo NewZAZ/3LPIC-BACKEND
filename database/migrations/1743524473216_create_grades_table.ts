@@ -13,7 +13,7 @@ export default class extends BaseSchema {
         .inTable('courses')
         .onDelete('CASCADE')
       table.integer('user_id').notNullable().references('id').inTable('users').onDelete('CASCADE')
-      table.string('title').notNullable()
+      table.string('title').nullable()
       table.float('grade').nullable()
       table.float('max_grade').notNullable()
       table.float('percentage').notNullable()

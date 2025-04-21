@@ -14,7 +14,7 @@ export default class Grade extends BaseModel {
   declare userId: number
 
   @column()
-  declare title: string
+  declare title: string | null
 
   @column()
   declare grade: number | null
