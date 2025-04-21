@@ -30,6 +30,8 @@ export default class GradesController {
       return response.notFound({ success: false, message: 'Course not found' })
     }
 
+    console.log('courseid', course.id, 'moduleId', moduleId, 'userId', userId, 'score', score)
+
     await Grade.create({
       userId,
       courseId: course.id,
